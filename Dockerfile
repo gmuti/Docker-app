@@ -4,8 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-RUN npm run build --configuration production
-
+RUN npm run ng build -- --output-path=dist --configuration=production --verbose
 # Étape 2 : Serveur pour l'application Angular
 FROM nginx:alpine
 COPY --from=build /app/dist/ /usr/share/nginx/html
