@@ -46,7 +46,7 @@ jobs:
       - name: Define image name
         id: image-name
         run: |
-          IMAGE_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME=$(echo "gedemo/docker-app" | tr '[:upper:]' '[:lower:]')
           echo "IMAGE_NAME=${IMAGE_NAME}:${{ github.sha }}" >> $GITHUB_ENV
 
       # Étape 7 : Build et Push de l'image Docker avec cache
