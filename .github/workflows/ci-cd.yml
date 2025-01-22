@@ -37,9 +37,18 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Étape 5 : Build de l'image Docker avec cache
+      # Étape 5 : Configurer Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Étape 6 : Créer un nouveau builder avec le driver containerd
+      - name: Create buildx builder with containerd
+        run: |
+          docker buildx create --use --driver containerd
+
+      # Étape 7 : Build et Push de l'image Docker avec cache
       - name: Build and Push Docker Image to GitHub Container Registry
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v3
         with:
           context: .
           file: ./Dockerfile
