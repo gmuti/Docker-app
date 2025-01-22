@@ -45,7 +45,7 @@ jobs:
       # Étape 6 : Définir un nom d'image dynamique
       - name: Define image name
         id: image-name
-        run: echo "IMAGE_NAME=${{ github.repository }}:${{ github.sha }}" >> $GITHUB_ENV
+        run: echo "IMAGE_NAME=${{ github.repository | toLowerCase }}:${{ github.sha }}" >> $GITHUB_ENV
 
       # Étape 7 : Build et Push de l'image Docker avec cache
       - name: Build and Push Docker Image to GitHub Container Registry
