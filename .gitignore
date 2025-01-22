@@ -5,6 +5,11 @@
 /tmp
 /out-tsc
 /bazel-out
+build/
+
+# Angular specific
+.angular/
+.angular/cache/
 
 # Node
 /node_modules
@@ -40,3 +45,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+.env

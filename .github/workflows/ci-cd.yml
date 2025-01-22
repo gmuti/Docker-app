@@ -24,6 +24,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+
       # Étape 3 : Construire et pousser l'image Docker
       - name: Build and Push Docker Image
         run: |
