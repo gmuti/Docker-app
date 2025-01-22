@@ -9,41 +9,28 @@ on:
       - main
 
 jobs:
-  build-and-push-docker:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Étape 1 : Vérifier le dépôt
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Étape 2 : Configurer Docker
-      - name: Log in to DockerHub
-        uses: docker/login-action@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          node-version: '18'
 
+      - name: Install dependencies
+        run: npm install
 
-      # Étape 3 : Construire et pousser l'image Docker
-      - name: Build and Push Docker Image
-        run: |
-          docker build -t gedeonm/docker-app:latest .
-          docker push gedeonm/docker-app:latest
+      - name: Build Angular app
+        run: npm run build -- --prod
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-and-push-docker
-
-    steps:
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@v0.1.5
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-action@v4
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_KEY }}
-          script: |
-            docker pull gedeonm/docker-app:latest
-            docker stop angular-app || true
-            docker rm angular-app || true
-            docker run -d -p 80:80 --name angular-app gedeonm/docker-app:latest
+          branch: gh-pages
+          folder: dist/your-app-name
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
