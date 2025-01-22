@@ -39,11 +39,11 @@ jobs:
 
       # Étape 5 : Build de l'image Docker avec cache
       - name: Build and Push Docker Image to GitHub Container Registry
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/docker-app:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,ref=${{ secrets.DOCKER_USERNAME }}/docker-app:buildcache
+          cache-to: type=gha,ref=${{ secrets.DOCKER_USERNAME }}/docker-app:buildcache,mode=max
