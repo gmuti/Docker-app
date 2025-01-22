@@ -1,3 +1,5 @@
+new :
+
 name: CI/CD Pipeline
 
 on:
@@ -16,6 +18,7 @@ jobs:
       # Étape 1 : Vérifier le dépôt
       - name: Checkout code
         uses: actions/checkout@v3
+        id: create-image-name
 
       # Étape 2 : Configurer Node.js et installer les dépendances
       - name: Set up Node.js
@@ -47,7 +50,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/docker-app:latest
-          cache-from: type=gha,ref=${{ secrets.DOCKER_USERNAME }}/docker-app:buildcache
-          cache-to: type=gha,ref=${{ secrets.DOCKER_USERNAME }}/docker-app:buildcache,mode=max
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ create-image-name.outputs.image }}
+          cache-from: type=registry,ref=${{ steps.create-image-name.outputs.image }}
+          cache-to: type=inline
