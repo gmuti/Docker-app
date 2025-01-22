@@ -19,7 +19,7 @@ jobs:
 
       # Étape 2 : Configurer Node.js et installer les dépendances
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
           node-version: '18'
 
