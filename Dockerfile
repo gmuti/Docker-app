@@ -7,6 +7,6 @@ COPY . .
 RUN npm run ng build -- --output-path=dist --configuration=production --verbose
 # Étape 2 : Serveur pour l'application Angular
 FROM nginx:alpine
-COPY --from=build /app/dist/ /usr/share/nginx/html
+COPY --from=build /app/dist/docker-app /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
