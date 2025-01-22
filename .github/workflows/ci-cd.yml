@@ -42,10 +42,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Étape 6 : Définir un nom d'image dynamique
+      # Étape 6 : Définir un nom d'image dynamique (en minuscules)
       - name: Define image name
         id: image-name
-        run: echo "IMAGE_NAME=${{ github.repository | toLowerCase }}:${{ github.sha }}" >> $GITHUB_ENV
+        run: |
+          IMAGE_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "IMAGE_NAME=${IMAGE_NAME}:${{ github.sha }}" >> $GITHUB_ENV
 
       # Étape 7 : Build et Push de l'image Docker avec cache
       - name: Build and Push Docker Image to GitHub Container Registry
